@@ -37,13 +37,21 @@ def rk2_step(phi_n, w_n, h, f):
     w_n1 = w_n + k2[1] * h
     return phi_n1, w_n1
 
+N_steps = 40000
+h = 10. / N_steps
+phi = np.zeros(N_steps)
+w = np.zeros(N_steps)
+
+phi[0] = A
+w[0] = 0
+for i in range(1, N_steps):
+    phi[i], w[i] = rk2_step(phi[i-1], w[i-1], h, f)
 
 
 
+t_rk = [h * i for i in range(N_steps)]
 
-
-
-
+plt.plot(t_rk, phi, 'g')
 
 
 
