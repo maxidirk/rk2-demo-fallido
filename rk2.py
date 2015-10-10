@@ -16,26 +16,35 @@ plt.clf()
 
 t = np.linspace(0, 5 * 2 * np.pi / w, 400)
 
-plt.plot(t, A * np.sin(w * t))
-
+plt.plot(t, A * np.cos(w * t)) #np.sin(w * t) -> np.cos(w * t)
+                               #para que se cumpla la condicion inicial en A
 
 def f(phi, w):
     return w, -10 * np.sin(phi)
 
 def get_k1(phi_n, w_n, h, f):
+    '''
+    k1=h*f(xn,yn)
+    '''
     f_eval = f(phi_n, w_n)
-    return h * f_eval[0], h * f_eval[1]
+    return h * f_eval[0], h * f_eval[1] #esta bien
 
 def get_k2(phi_n, w_n, h, f):
+    '''
+    k2=h*f(xn+h*1/2,yn+ k1*1/2)
+    '''
     k1 = get_k1(phi_n, w_n, h, f)
-    f_eval = f(phi_n + k1[0]/2, w_n + k1[1]/2)
-    return h * f_eval[0], h * f_eval[1]
+    f_eval = f(phi_n + h/2, w_n + k1[1]/2) # phi_n + k1[0]/2 -> phi_n +h/2
+    return h * f_eval[0], h * f_eval[1]    #esta bien
 
 def rk2_step(phi_n, w_n, h, f):
+    '''
+    yn1 = yn + k2
+    '''
     k2 = get_k2(phi_n, w_n, h, f)
-    phi_n1 = phi_n + k2[0] * h
-    w_n1 = w_n + k2[1] * h
-    return phi_n1, w_n1
+    phi_n1 = phi_n + k2[0]  #  k2[0] * h ->  k2[0]
+    w_n1 = w_n + k2[1]      #  k2[1] * h ->  k2[1]
+    return phi_n1, w_n1     #esta bien
 
 N_steps = 40000
 h = 10. / N_steps
